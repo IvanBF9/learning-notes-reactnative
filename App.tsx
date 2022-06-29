@@ -4,12 +4,22 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Home, Detail} from './src/pages';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import {getNotes, createNote, deleteNote, editNote} from './src/utils/api';
+import { useState, useEffect} from 'react';
+import {INote} from './src/utils/interfaces';
+import {useData} from './src/features/custom-hooks';
 
 export default function App() {
 
+  const [notes, setNotes] = useState([] as INote[]);
+
+  useEffect(() => {
+    getNotes().then((res:any) => setNotes(res));
+  },[])
+
+  console.log(notes)
+
   const Tab = createBottomTabNavigator();
 
-  getNotes().then(e => console.log(e));
 
   return (
     <NavigationContainer>
