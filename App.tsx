@@ -1,17 +1,18 @@
+import React, { useState, useEffect} from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {getNotes, createNote, deleteNote, editNote} from './src/utils/api';
-import { useState, useEffect} from 'react';
 import {INote} from './src/utils/interfaces';
-import {useData} from './src/features/custom-hooks';
 import { StyleSheet, SafeAreaView, View } from "react-native";
 import { Home, Detail, Ajout } from "./src/pages";
 import { useStyles } from "./src/utils/style";
-import React from "react";
 import { MHeader } from "./src/components/atoms";
 import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Feather } from "@expo/vector-icons";
+
+
+export default function App() {
 
   const [notes, setNotes] = useState([] as INote[]);
 
@@ -20,12 +21,9 @@ import { Feather } from "@expo/vector-icons";
   },[])
 
   console.log(notes)
-
-  const Tab = createBottomTabNavigator();
-
-export default function App() {
   const styles = useStyles();
   const Tab = createBottomTabNavigator();
+  
 
 
   return (
