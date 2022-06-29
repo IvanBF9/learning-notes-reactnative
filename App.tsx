@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {getNotes, createNote, deleteNote, editNote} from './src/utils/api';
 import {INote} from './src/utils/interfaces';
 import { StyleSheet, SafeAreaView, View } from "react-native";
-import { Home, Detail, Ajout } from "./src/pages";
+import { Home, Detail, Ajout, MyList } from "./src/pages";
 import { useStyles } from "./src/utils/style";
 import { MHeader } from "./src/components/atoms";
 import { AntDesign } from "@expo/vector-icons";
@@ -23,7 +23,19 @@ export default function App() {
   console.log(notes)
   const styles = useStyles();
   const Tab = createBottomTabNavigator();
-  
+
+/*
+  useEffect(() => {
+    for(let i = 0; i< 3; i++){
+      createNote({
+        "title": "free data",
+        "author": "choco",
+        "anonym": false,
+        "text": "lorem",
+        "tags": []
+    })
+    }
+  },[])*/
 
 
   return (
@@ -44,8 +56,8 @@ export default function App() {
             }}
           />
           <Tab.Screen
-            name="Detail"
-            component={Detail}
+            name="Mes notes"
+            component={MyList}
             options={{
               tabBarIcon: ({ color, size, focused }) => {
                 return (
