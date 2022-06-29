@@ -1,9 +1,26 @@
-import React from "react";
-import { View, Text, SafeAreaView } from "react-native";
+import React, {useState} from "react";
+import { View, Text, SafeAreaView, Button } from "react-native";
 import { useStyles } from "../utils/style";
 import { MHeader, MText, MTitle, MInput } from "../components/atoms";
+import {getNotes, createNote, deleteNote, editNote} from '../utils/api';
+import {CreateNote} from '../utils/api';
 
 export default function Ajout({ navigation }: { navigation: any }) {
+
+  const [note, setNote] = useState({} as CreateNote);
+
+  const splitTags = (val:string) => {
+    return val.split(',');
+  }
+
+  const setKey = {
+    title: (val:string) => setNote((old:CreateNote) => {return old.title=val}),
+    author: (val:string) => setNote((old:CreateNote) => {return old.author=val}),
+    anonym: (val:boolean) => setNote((old:CreateNote) => {return old.anonym=val}),
+    text: (val:string) => setNote((old:CreateNote) => {return old.text=val}),
+    tags: (val:string) => setNote((old:CreateNote) => {return old.tags=splitTags(val)}),
+  };
+
   const styles = useStyles();
   return (
     <View style={styles.container}>
@@ -14,6 +31,7 @@ export default function Ajout({ navigation }: { navigation: any }) {
       </MInput>
       <MInput placeholder="Image">Ajouter</MInput>
       <MInput placeholder="Tags séparés par des virgules">Ajouter</MInput>
+      <Button title="send"></Button>
     </View>
   );
 }
