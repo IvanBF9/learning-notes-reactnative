@@ -15,10 +15,9 @@ import {getName, setName} from './src/utils/storage';
 import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Feather } from "@expo/vector-icons";
-
+import TabNavigation from "./src/routes/TabNavigation";
 
 export default function App() {
-
   const [notes, setNotes] = useState([] as INote[]);
   const [user, setUser] = useState('');
 
@@ -35,9 +34,8 @@ export default function App() {
 
  // console.log(notes)
   const styles = useStyles();
-  const Tab = createBottomTabNavigator();
 
-/*
+  /*
   useEffect(() => {
     for(let i = 0; i< 3; i++){
       createNote({
@@ -50,50 +48,12 @@ export default function App() {
     }
   },[])*/
 
-
   return (
     <NavigationContainer>
       {user != ''?(
       <SafeAreaView style={styles.global}>
         <MHeader>{user}</MHeader>
-        <Tab.Navigator
-          initialRouteName="Home"
-          screenOptions={{ headerShown: false }}
-        >
-          <Tab.Screen
-            name="Home"
-            component={Home}
-            options={{
-              tabBarIcon: ({ color, size, focused }) => {
-                return <AntDesign name="home" size={24} color="black" />;
-              },
-            }}
-          />
-          <Tab.Screen
-            name="Mes notes"
-            component={MyList}
-            options={{
-              tabBarIcon: ({ color, size, focused }) => {
-                return (
-                  <Ionicons
-                    name="ios-document-outline"
-                    size={24}
-                    color="black"
-                  />
-                );
-              },
-            }}
-          />
-          <Tab.Screen
-            name="Ajout"
-            component={Ajout}
-            options={{
-              tabBarIcon: ({ color, size, focused }) => {
-                return <Feather name="file-plus" size={24} color="black" />;
-              },
-            }}
-          />
-        </Tab.Navigator>
+        <TabNavigation />
       </SafeAreaView>
       ):(<UserPage setUser={setUser}/>)}
     </NavigationContainer>
