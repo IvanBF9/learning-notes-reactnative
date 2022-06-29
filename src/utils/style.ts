@@ -10,6 +10,8 @@ export const useStyles = () => {
     },
     container: {
       padding: 20,
+      backgroundColor: colors.primary,
+      height: "100%",
       //alignItems: "center",
       //justifyContent: "center",
     },
@@ -21,6 +23,7 @@ export const useStyles = () => {
     headerTitre: {
       fontWeight: "bold",
       fontSize: 24,
+      color: colors.text,
     },
     titre: {
       fontWeight: "bold",
@@ -29,6 +32,12 @@ export const useStyles = () => {
     texte: {
       fontWeight: "bold",
       fontSize: 18,
+    },
+    input: {
+      marginVertical: 5,
+      color: colors.text,
+      fontSize: 25,
+      backgroundColor: colors.secondary,
     },
   });
 };
