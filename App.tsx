@@ -3,12 +3,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Home, Detail} from './src/pages';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
+import {getNotes, createNote, deleteNote, editNote} from './src/utils/api';
 
 export default function App() {
 
   const Tab = createBottomTabNavigator();
 
+  getNotes().then(e => console.log(e));
 
   return (
     <NavigationContainer>
