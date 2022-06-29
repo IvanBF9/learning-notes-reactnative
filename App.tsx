@@ -1,35 +1,67 @@
-import { StyleSheet, SafeAreaView } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {Home, Detail} from './src/pages';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import {getNotes, createNote, deleteNote, editNote} from './src/utils/api';
+import { StyleSheet, SafeAreaView, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Home, Detail, Ajout } from "./src/pages";
+
+import { getNotes, createNote, deleteNote, editNote } from "./src/utils/api";
+import { useStyles } from "./src/utils/style";
+
+import React from "react";
+import { MHeader } from "./src/components/atoms";
+
+import { AntDesign } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Feather } from "@expo/vector-icons";
 
 export default function App() {
-
+  const styles = useStyles();
   const Tab = createBottomTabNavigator();
 
-  getNotes().then(e => console.log(e));
+  getNotes().then((e) => console.log(e));
 
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName='Home' screenOptions={{headerShown: false}}>
-        <Tab.Screen name="Home" component={Home} options={{
-          tabBarIcon: ({color, size, focused}) => {
-            return <Ionicons name="md-checkmark-circle" size={32} color="green" />
-          },
-        }} />
-        <Tab.Screen name="Detail" component={Detail} />
-      </Tab.Navigator>
+      <SafeAreaView style={styles.global}>
+        <MHeader>Username</MHeader>
+        <Tab.Navigator
+          initialRouteName="Home"
+          screenOptions={{ headerShown: false }}
+        >
+          <Tab.Screen
+            name="Home"
+            component={Home}
+            options={{
+              tabBarIcon: ({ color, size, focused }) => {
+                return <AntDesign name="home" size={24} color="black" />;
+              },
+            }}
+          />
+          <Tab.Screen
+            name="Detail"
+            component={Detail}
+            options={{
+              tabBarIcon: ({ color, size, focused }) => {
+                return (
+                  <Ionicons
+                    name="ios-document-outline"
+                    size={24}
+                    color="black"
+                  />
+                );
+              },
+            }}
+          />
+          <Tab.Screen
+            name="Ajout"
+            component={Ajout}
+            options={{
+              tabBarIcon: ({ color, size, focused }) => {
+                return <Feather name="file-plus" size={24} color="black" />;
+              },
+            }}
+          />
+        </Tab.Navigator>
+      </SafeAreaView>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

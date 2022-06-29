@@ -2,7 +2,7 @@ import React from "react";
 import { Text, TextStyle } from "react-native";
 import { useStyles } from "../../utils/style";
 
-export default function Mtext({
+export default function MTitle({
   children,
   style = {},
   ...other
@@ -13,7 +13,7 @@ export default function Mtext({
   const styles = useStyles();
 
   return (
-    <Text style={{ ...styles.texte, ...style }} {...other}>
+    <Text style={{ ...styles.titre, ...style }} {...other}>
       {children}
     </Text>
   );

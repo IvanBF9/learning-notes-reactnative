@@ -1,13 +1,13 @@
 import React from "react";
 import { View, Text, SafeAreaView } from "react-native";
 import { useStyles } from "../utils/style";
-import { MText, MTitle, MHeader } from "../components/atoms";
+import { MHeader, MText, MTitle } from "../components/atoms";
 
-export default function Detail({ navigation }: { navigation: any }) {
+export default function Ajout({ navigation }: { navigation: any }) {
   const styles = useStyles();
   return (
     <View style={styles.container}>
-      <MTitle>Detail</MTitle>
+      <MTitle>Ajout</MTitle>
       <Text
         onPress={() => {
           navigation.navigate("Home");
