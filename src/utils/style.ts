@@ -8,6 +8,10 @@ export const useStyles = () => {
       backgroundColor: colors.background,
       paddingTop: 20,
     },
+    scrollContainer: {
+      paddingHorizontal: 20,
+      backgroundColor: colors.primary,
+    },
     container: {
       padding: 20,
       backgroundColor: colors.primary,
@@ -26,21 +30,33 @@ export const useStyles = () => {
       color: colors.text,
     },
     card: {
-      backgroundColor: colors.secondary,
+      backgroundColor: colors.background,
+      marginVertical: 5,
+      padding: 10,
+      borderRadius: 4,
+    },
+    cardTitle: {
+      fontWeight: "bold",
+      fontSize: 20,
+      color: colors.text,
     },
     titre: {
-      fontWeight: "bold",
       fontSize: 22,
+      color: colors.text,
     },
     texte: {
-      fontWeight: "bold",
       fontSize: 18,
+      color: colors.text,
     },
     input: {
       marginVertical: 5,
       color: colors.text,
       fontSize: 25,
       backgroundColor: colors.secondary,
+    },
+    author: {
+      textAlign: "right",
+      color: colors.text,
     },
   });
 };
