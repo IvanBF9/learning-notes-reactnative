@@ -25,6 +25,9 @@ export const useStyles = () => {
       fontSize: 24,
       color: colors.text,
     },
+    card: {
+      backgroundColor: colors.secondary,
+    },
     titre: {
       fontWeight: "bold",
       fontSize: 22,
