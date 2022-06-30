@@ -32,6 +32,8 @@ export default function MyList({ navigation }: { navigation: any }) {
       {notes.map((item, index) => {
         return (
           <Card
+          style={{overflow: 'hidden', maxHeight:40}}
+            key={index}
             title={item.title}
             anonym={item.anonym}
             author={item.author}
@@ -43,3 +45,4 @@ export default function MyList({ navigation }: { navigation: any }) {
     </ScrollView>
   );
 }
+

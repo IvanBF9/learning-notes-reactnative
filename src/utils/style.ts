@@ -54,6 +54,10 @@ export const useStyles = () => {
       color: colors.text,
       fontSize: 25,
       backgroundColor: colors.secondary,
+      borderRadius:4,
+      borderStyle: 'solid',
+      borderWidth:2,
+      borderColor: 'black',
     },
     buttonCustom1: {
       padding: 5,
