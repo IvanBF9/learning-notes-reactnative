@@ -1,24 +1,49 @@
-import React, {useEffect, useState} from "react";
-import { View, Text, SafeAreaView, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, SafeAreaView, ScrollView, Button } from "react-native";
 import { useStyles } from "../utils/style";
 import { MText, MTitle, MHeader } from "../components/atoms";
-import {getNotes, createNote, deleteNote, editNote} from '../utils/api';
-import {INote} from '../utils/interfaces';
+import { INote } from "../utils/interfaces";
+import { getNotes } from "../utils/api";
+import { Card } from "../components/molecules";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Ajout from "./Ajout";
 
-export default function MyList({ navigation }: { navigation: any }) {
-
+export default function Home({ navigation }: { navigation: any }) {
+  const Stack = createNativeStackNavigator();
+  const styles = useStyles();
   const [notes, setNotes] = useState([] as INote[]);
 
   useEffect(() => {
-    getNotes().then((notes:any) => {setNotes(notes);});
-  }, []);
+    getNotes().then((res: any) => setNotes(res.reverse()));
+  });
 
-  const styles = useStyles();
+  //console.log(notes);
+
   return (
-    <ScrollView>
-      {notes.map(note => {
-        return <MText key={note._id}>{note.title}</MText>
+    <ScrollView style={styles.scrollContainer}>
+      <Text
+        style={styles.titre}
+        onPress={() => {
+          navigation.navigate("Detail");
+        }}
+      >
+        Go to detail
+      </Text>
+      {notes.map((item, index) => {
+        return (
+          <Card
+          style={{overflow: 'hidden', maxHeight:40}}
+            key={index}
+            title={item.title}
+            anonym={item.anonym}
+            author={item.author}
+            text={item.text}
+            children={undefined}
+          />
+        );
       })}
     </ScrollView>
   );
 }
+

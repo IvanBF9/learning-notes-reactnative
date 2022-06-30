@@ -15,10 +15,10 @@ export default function Home({ navigation }: { navigation: any }) {
   const [notes, setNotes] = useState([] as INote[]);
 
   useEffect(() => {
-    getNotes().then((res: any) => setNotes(res));
-  }, []);
+    getNotes().then((res: any) => setNotes(res.reverse()));
+  });
 
-  console.log(notes);
+  //console.log(notes);
 
   return (
     <ScrollView style={styles.scrollContainer}>
@@ -33,6 +33,8 @@ export default function Home({ navigation }: { navigation: any }) {
       {notes.map((item, index) => {
         return (
           <Card
+          style={{overflow: 'hidden', maxHeight:40}}
+            key={index}
             title={item.title}
             anonym={item.anonym}
             author={item.author}
