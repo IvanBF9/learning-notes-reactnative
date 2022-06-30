@@ -6,7 +6,6 @@ import { INote } from "../utils/interfaces";
 import { getNotes } from "../utils/api";
 import { Card } from "../components/molecules";
 import { useIsFocused } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // Context
 import {NotesContext} from '../utils/contexts';
 
@@ -26,7 +25,6 @@ export default function Home({ navigation }: { navigation: any }) {
   useEffect(() => {
     setDisplayedTags(tags.filter((tag:string) => tag.toUpperCase().includes(searchval.toUpperCase())));
     setDisplayedAuthors(authors.filter((aut:string) => aut.toUpperCase().includes(searchval.toUpperCase())));
-    
   }, [searchval])
 
   useEffect(() => {
@@ -48,15 +46,11 @@ export default function Home({ navigation }: { navigation: any }) {
         }
       }
     });
+
     setAuthors(_auteurs);
     setTags(_tags);
 
   }, [AllNotes]);
-
-  console.log("tags", displayedTags);
-  console.log("authors", displayedAuthors)
-
-  //console.log(notes);
 
   return (
     <View>
