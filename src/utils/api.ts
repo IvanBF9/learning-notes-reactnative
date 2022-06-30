@@ -13,7 +13,7 @@ const getNotes = async () => {
                 'Content-Type': 'application/json'
             },
         })
-        return res.data as INote[];
+        return res.data.reverse() as INote[];
 
     }catch(err){
         console.log(err);

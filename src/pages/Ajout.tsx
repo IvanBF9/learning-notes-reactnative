@@ -1,11 +1,36 @@
-import React, {useState} from "react";
-import { View, Text, SafeAreaView, Button, Switch, Alert } from "react-native";
+import React, {useState, useEffect} from "react";
+import { View, Text, SafeAreaView, Button, Switch, Alert, PermissionsAndroid } from "react-native";
 import { useStyles } from "../utils/style";
 import { MHeader, MText, MTitle, MInput } from "../components/atoms";
 import {getNotes, createNote, deleteNote, editNote} from '../utils/api';
 import {CreateNote} from '../utils/interfaces';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { getName } from "../utils/storage";
+
+const requestCameraPermission = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      {
+        title: "Cool Photo App Camera Permission",
+        message:
+          "Cool Photo App needs access to your camera " +
+          "so you can take awesome pictures.",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK"
+      }
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log("You can use the camera");
+    } else {
+      console.log("Camera permission denied");
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+};
 
 export default function Ajout({ navigation }: { navigation: any }) {
   const [note, setNote] = useState({} as CreateNote);
@@ -13,6 +38,16 @@ export default function Ajout({ navigation }: { navigation: any }) {
 
   const splitTags = (val:string) => {
     return val.split(',') as [];
+  }
+
+  const _lib = () => {
+    requestCameraPermission()
+    //launchImageLibrary({mediaType: 'photo'}).then((e) => console.log(e));
+  }
+
+  const _pic = () => {
+    launchCamera({mediaType: 'photo'});
+
   }
 
   const setKey = {
@@ -86,6 +121,8 @@ export default function Ajout({ navigation }: { navigation: any }) {
         />
       </View>
       <Button onPress={_Send} title="send"></Button>
+      <Button onPress={_lib} title="test"></Button>
+      <Button onPress={_pic} title="Pic"></Button>
       </KeyboardAwareScrollView>
     </View>
   );
