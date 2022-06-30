@@ -1,4 +1,5 @@
 import Card from "./Card";
 import CardUser from "./CardUser";
+import SearchBar from "./Searchbar";
 
-export { Card, CardUser };
+export { Card, SearchBar, CardUser};

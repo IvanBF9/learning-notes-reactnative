@@ -46,9 +46,11 @@ export default function MyList({ navigation }: { navigation: any }) {
             title={item.title}
             anonym={item.anonym}
             author={item.author}
+            date={item.creation_date}
             text={item.text}
+            tags={item.tags}
             children={undefined}
-            navigation={undefined}
+            navigation={navigation}
           />
         );
       })}
