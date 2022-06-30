@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import { useStyles } from "../utils/style";
 import { MText, MTitle, MHeader } from "../components/atoms";
@@ -8,20 +8,22 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CardUser } from "../components/molecules";
 import { getName } from "../utils/storage";
 import { useIsFocused } from "@react-navigation/native";
+import { NotesContext } from '../utils/contexts';
 
 export default function MyList({ navigation }: { navigation: any }) {
   const isfocused = useIsFocused();
+  const {AllNotes, setAllNotes} = useContext(NotesContext);
   const [notes, setNotes] = useState([] as INote[]);
   const styles = useStyles();
   const Stack = createNativeStackNavigator();
 
-  useEffect(() => {
+  /*/useEffect(() => {
     getName().then((name) => {
       getNotes().then((notes: any) => {
-        setNotes(notes.filter((note: INote) => note.author == name));
+        setAllNotes(notes.filter((note: INote) => note.author == name));
       });
     });
-  }, [isfocused]);
+  }, [isfocused]);*/
 
   return (
     <ScrollView style={styles.scrollContainer}>
@@ -37,7 +39,7 @@ export default function MyList({ navigation }: { navigation: any }) {
         </Text>
       </View>
 
-      {notes.map((item, index) => {
+      {AllNotes.map((item, index) => {
         return (
           <CardUser
             style={{ overflow: "hidden", height: 80 }}

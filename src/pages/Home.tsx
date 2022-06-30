@@ -1,50 +1,60 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, SafeAreaView, ScrollView, Button } from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import { View, Text, ScrollView } from "react-native";
 import { useStyles } from "../utils/style";
-import { MText, MTitle, MHeader, MInput, } from "../components/atoms";
 import {SearchBar} from '../components/molecules';
 import { INote } from "../utils/interfaces";
 import { getNotes } from "../utils/api";
 import { Card } from "../components/molecules";
-import { NavigationContainer, useIsFocused } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Ajout from "./Ajout";
+// Context
+import {NotesContext} from '../utils/contexts';
 
 export default function Home({ navigation }: { navigation: any }) {
   const isfocused = useIsFocused();
-  const Stack = createNativeStackNavigator();
   const styles = useStyles();
-  const [notes, setNotes] = useState([] as INote[]);
+
+  // Context
+  const {AllNotes, setAllNotes} = useContext(NotesContext);
+  // states
   const [tags, setTags] = useState([] as string[]);
-  const [displayedTags, setDisplayedTags] = useState(tags as string[]);
+  const [authors, setAuthors] = useState([] as string[]);
+  const [displayedAuthors, setDisplayedAuthors] = useState([] as string[]);
+  const [displayedTags, setDisplayedTags] = useState([] as string[]);
   const [searchval, setSearchval] = useState('');
 
   useEffect(() => {
     setDisplayedTags(tags.filter((tag:string) => tag.toUpperCase().includes(searchval.toUpperCase())));
+    setDisplayedAuthors(authors.filter((aut:string) => aut.toUpperCase().includes(searchval.toUpperCase())));
     
   }, [searchval])
 
   useEffect(() => {
-    getNotes().then((res: any) => setNotes(res));
+    getNotes().then((res: any) => setAllNotes(res));
   }, [isfocused]);
 
   useEffect(() => {
     const _tags:string[] = [];
+    const _auteurs:string[] = [];
 
-    notes.map((note:INote) => {
+    AllNotes.map((note:INote) => {
+      if (!_auteurs.includes(note.author) && typeof note.author == 'string') {
+        _auteurs.push(note.author);
+      }
       const tg = note.tags;
       for (const _t of tg){
-        if (!_tags.includes(_t)){
+        if (!_tags.includes(_t) && typeof note.author == 'string'){
           _tags.push(_t);
         }
       }
     });
-
+    setAuthors(_auteurs);
     setTags(_tags);
 
-  }, [notes]);
+  }, [AllNotes]);
 
-  console.log(displayedTags);
+  console.log("tags", displayedTags);
+  console.log("authors", displayedAuthors)
 
   //console.log(notes);
 
@@ -60,7 +70,7 @@ export default function Home({ navigation }: { navigation: any }) {
         >
           Home Go to detail
         </Text>
-        {notes.map((item, index) => {
+        {AllNotes.map((item, index) => {
           return (
             <Card
               style={{ overflow: "hidden", maxHeight: 40 }}
