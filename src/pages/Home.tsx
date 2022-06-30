@@ -26,7 +26,7 @@ export default function Home({ navigation }: { navigation: any }) {
           navigation.navigate("Detail");
         }}
       >
-        Home to detail
+        Home Go to detail
       </Text>
       {notes.map((item, index) => {
         return (
