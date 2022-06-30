@@ -8,7 +8,6 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import { getName } from "../utils/storage";
 
 export default function Ajout({ navigation }: { navigation: any }) {
-
   const [note, setNote] = useState({} as CreateNote);
   const [anonym, setAnonym] = useState(false);
 

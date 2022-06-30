@@ -4,17 +4,17 @@ import { useStyles } from "../utils/style";
 import { MText, MTitle, MHeader } from "../components/atoms";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-export default function Detail({ navigation }: { navigation: any }) {
+export default function EditNote({ navigation }: { navigation: any }) {
   const styles = useStyles();
   return (
     <View style={styles.container}>
-      <MTitle>Detail note home</MTitle>
+      <MTitle>Detail note user</MTitle>
       <Text
         onPress={() => {
-          navigation.navigate("Home");
+          navigation.navigate("MyList");
         }}
       >
-        Go to home
+        Retour liste notes
       </Text>
     </View>
   );
