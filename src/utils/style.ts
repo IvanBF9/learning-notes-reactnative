@@ -16,10 +16,14 @@ export const useStyles = () => {
       padding: 20,
       backgroundColor: colors.primary,
       height: "100%",
-      //alignItems: "center",
-      //justifyContent: "center",
+    },
+    py20: {
+      paddingVertical: 20,
     },
     headerBox: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
       borderBottomWidth: 1,
       width: "100%",
       padding: 20,
@@ -30,6 +34,16 @@ export const useStyles = () => {
       color: colors.text,
     },
     card: {
+      backgroundColor: colors.background,
+      marginVertical: 5,
+      padding: 10,
+      borderRadius: 4,
+    },
+    cardUser: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "100%",
       backgroundColor: colors.background,
       marginVertical: 5,
       padding: 10,
@@ -51,21 +65,26 @@ export const useStyles = () => {
     input: {
       padding: 5,
       marginVertical: 5,
-      color: colors.text,
+      color: colors.background,
       fontSize: 25,
       backgroundColor: colors.secondary,
-      borderRadius:4,
-      borderStyle: 'solid',
-      borderWidth:2,
-      borderColor: 'black',
+      borderRadius: 4,
     },
     buttonCustom1: {
       padding: 5,
       backgroundColor: colors.text,
+      borderRadius: 4,
     },
     buttonCustom2: {
       padding: 5,
       backgroundColor: colors.background,
+      borderRadius: 4,
+    },
+    buttonBack: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "100%",
     },
     buttonIcon: {
       textAlign: "center",
@@ -73,21 +92,7 @@ export const useStyles = () => {
     author: {
       textAlign: "right",
       color: colors.text,
+      fontStyle: "italic",
     },
   });
 };
-
-/*const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  texte: {
-    color: "red",
-    fontWeight: "bold",
-  },
-});
-
-export default styles;*/

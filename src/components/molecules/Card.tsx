@@ -14,7 +14,6 @@ export default function Card({
   text,
   anonym,
   author,
-  date,
   tags,
   navigation,
   children,
@@ -26,7 +25,6 @@ export default function Card({
   text: string;
   anonym: boolean;
   author?: string;
-  date: string;
   tags?: string[];
   navigation: any;
   children: React.ReactNode;
@@ -49,11 +47,11 @@ export default function Card({
         <Text style={{ ...styles.texte, ...style }} {...other}>
           {text}
         </Text>
-
-        <Text style={{ ...styles.author, ...style }} {...other}>
-          {author}
-          {anonym ? " true" : " false"}
-        </Text>
+        {anonym ? (
+          <Text style={styles.author}>Auteur anonyme</Text>
+        ) : (
+          <Text style={styles.author}>{author}</Text>
+        )}
       </TouchableOpacity>
     </View>
   );

@@ -14,16 +14,5 @@ export default function MInput({
 }) {
   const styles = useStyles();
 
-  return (
-    <TextInput
-      style={{ ...styles.input, ...style }}
-      {...other}
-      /*onChangeText={(text) =>
-          setFocusItem((old) => {
-            return { ...old, subject: text };
-          })
-        }
-        value={focusItem.subject}*/
-    />
-  );
+  return <TextInput style={{ ...styles.input, ...style }} {...other} />;
 }
