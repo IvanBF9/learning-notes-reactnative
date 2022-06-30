@@ -33,13 +33,17 @@ export default function Home({ navigation }: { navigation: any }) {
       {notes.map((item, index) => {
         return (
           <Card
-          style={{overflow: 'hidden', maxHeight:40}}
+            style={{ overflow: "hidden", maxHeight: 40 }}
             key={index}
+            id={item._id}
             title={item.title}
             anonym={item.anonym}
             author={item.author}
+            date={item.creation_date}
             text={item.text}
+            tags={item.tags}
             children={undefined}
+            navigation={navigation}
           />
         );
       })}
