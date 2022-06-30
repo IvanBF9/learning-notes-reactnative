@@ -49,10 +49,22 @@ export const useStyles = () => {
       color: colors.text,
     },
     input: {
+      padding: 5,
       marginVertical: 5,
       color: colors.text,
       fontSize: 25,
       backgroundColor: colors.secondary,
+    },
+    buttonCustom1: {
+      padding: 5,
+      backgroundColor: colors.text,
+    },
+    buttonCustom2: {
+      padding: 5,
+      backgroundColor: colors.background,
+    },
+    buttonIcon: {
+      textAlign: "center",
     },
     author: {
       textAlign: "right",

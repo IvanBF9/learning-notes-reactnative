@@ -18,8 +18,6 @@ export default function Home({ navigation }: { navigation: any }) {
     getNotes().then((res: any) => setNotes(res));
   }, []);
 
-  console.log(notes);
-
   return (
     <ScrollView style={styles.scrollContainer}>
       <Text
@@ -28,7 +26,7 @@ export default function Home({ navigation }: { navigation: any }) {
           navigation.navigate("Detail");
         }}
       >
-        Go to detail
+        Home to detail
       </Text>
       {notes.map((item, index) => {
         return (

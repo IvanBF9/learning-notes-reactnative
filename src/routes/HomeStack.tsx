@@ -5,7 +5,7 @@ import { Home, Detail } from "../pages";
 
 const Stack = createNativeStackNavigator();
 
-const StackNavigation = () => {
+const HomeStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -34,4 +34,4 @@ const StackNavigation = () => {
   );
 };
 
-export default StackNavigation;
+export default HomeStack;

@@ -3,6 +3,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, Ionicons, Feather } from "@expo/vector-icons";
 import { Home, MyList, Ajout } from "../pages";
+import { HomeStack, MyNotesStack } from ".";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,8 +14,8 @@ const TabNavigation = () => {
       screenOptions={{ headerShown: false }}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="HomeStack"
+        component={HomeStack}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             return <AntDesign name="home" size={24} color="black" />;
@@ -22,8 +23,8 @@ const TabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Mes notes"
-        component={MyList}
+        name="MyNotesStack"
+        component={MyNotesStack}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             return (
