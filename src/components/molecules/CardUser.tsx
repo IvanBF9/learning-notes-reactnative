@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  Alert,
   Text,
   TextStyle,
   TouchableOpacity,
@@ -9,6 +10,8 @@ import {
 import { useStyles } from "../../utils/style";
 import { MText } from "../atoms";
 import { Foundation } from "@expo/vector-icons";
+import { deleteNote } from "../../utils/api";
+import { DeleteNote } from "../../utils/interfaces";
 
 export default function Card({
   id,
@@ -33,6 +36,14 @@ export default function Card({
   style?: TextStyle;
 }) {
   const styles = useStyles();
+  const [note, setNote] = useState({} as DeleteNote);
+
+  const alerte = () => Alert.alert("Note supprimée");
+
+  const deleteItem = (val: DeleteNote) => {
+    deleteNote(id);
+    alerte();
+  };
 
   return (
     <View style={styles.cardUser}>
@@ -56,7 +67,7 @@ export default function Card({
           <Foundation name="page-edit" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity
-          //onPress={delete}
+          onPress={deleteItem}
           style={{ ...styles.buttonCustom1 }}
         >
           <Foundation name="page-delete" size={24} color="black" />

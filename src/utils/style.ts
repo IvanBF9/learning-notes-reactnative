@@ -62,6 +62,13 @@ export const useStyles = () => {
       fontSize: 18,
       color: colors.text,
     },
+    texteBtn: {
+      textAlign: "center",
+      fontSize: 18,
+      color: colors.background,
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+    },
     input: {
       padding: 5,
       marginVertical: 5,
@@ -86,6 +93,12 @@ export const useStyles = () => {
       justifyContent: "space-between",
       width: "100%",
     },
+    buttonCenter: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      width: "100%",
+    },
     buttonIcon: {
       textAlign: "center",
     },
@@ -93,6 +106,10 @@ export const useStyles = () => {
       textAlign: "right",
       color: colors.text,
       fontStyle: "italic",
+    },
+    searchBar: {
+      paddingVertical: 5,
+      paddingHorizontal: 20,
     },
   });
 };

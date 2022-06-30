@@ -29,7 +29,6 @@ export default function App() {
     getNotes().then((res: any) => setAllNotes(res));
   }, []);
 
-
   const styles = useStyles();
 
   return (

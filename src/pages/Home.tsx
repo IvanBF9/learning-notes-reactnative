@@ -60,16 +60,21 @@ export default function Home({ navigation }: { navigation: any }) {
 
   return (
     <View>
-      <SearchBar onChangeText={setSearchval}></SearchBar>
+      <SearchBar onChangeText={setSearchval} style={styles.searchBar}>
+        Recherche
+      </SearchBar>
       <ScrollView style={styles.scrollContainer}>
-        <Text
-          style={styles.titre}
-          onPress={() => {
-            navigation.navigate("Detail");
-          }}
-        >
-          Home Go to detail
-        </Text>
+        <View style={styles.py20}>
+          <Text
+            style={styles.titre}
+            onPress={() => {
+              navigation.navigate("Detail");
+            }}
+          >
+            Appuyez sur une note pour afficher plus de détails
+          </Text>
+        </View>
+
         {AllNotes.map((item, index) => {
           return (
             <Card
@@ -79,7 +84,6 @@ export default function Home({ navigation }: { navigation: any }) {
               title={item.title}
               anonym={item.anonym}
               author={item.author}
-              date={item.creation_date}
               text={item.text}
               tags={item.tags}
               children={undefined}
