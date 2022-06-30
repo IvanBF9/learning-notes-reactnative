@@ -21,6 +21,9 @@ export default function Home({ navigation }: { navigation: any }) {
   const [displayedAuthors, setDisplayedAuthors] = useState([] as string[]);
   const [displayedTags, setDisplayedTags] = useState([] as string[]);
   const [searchval, setSearchval] = useState('');
+  // Filters states
+  const [filterTag, setFilterTag] = useState('');
+  const [filterAuthor, setFilterAuthor] = useState('');
 
   useEffect(() => {
     setDisplayedTags(tags.filter((tag:string) => tag.toUpperCase().includes(searchval.toUpperCase())));
