@@ -5,18 +5,29 @@ import { MText, MTitle, MHeader } from "../components/atoms";
 import { INote } from "../utils/interfaces";
 import { getNotes } from "../utils/api";
 import { Card } from "../components/molecules";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Ajout from "./Ajout";
 
 export default function Home({ navigation }: { navigation: any }) {
   const Stack = createNativeStackNavigator();
+  const isfocused = useIsFocused();
   const styles = useStyles();
   const [notes, setNotes] = useState([] as INote[]);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     getNotes().then((res: any) => setNotes(res.reverse()));
-  });
+  }, [isfocused]);
+
+  useEffect(() => {
+    const _tags = [];
+
+    notes.map((note:INote) => {
+
+    });
+
+  }, [notes]);
 
   //console.log(notes);
 

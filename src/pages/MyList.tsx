@@ -6,17 +6,23 @@ import { getNotes, createNote, deleteNote, editNote } from "../utils/api";
 import { INote } from "../utils/interfaces";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Card } from "../components/molecules";
+import { getName } from "../utils/storage";
+import { useIsFocused } from '@react-navigation/native';
 
 export default function MyList({ navigation }: { navigation: any }) {
+
+  const isfocused = useIsFocused();
   const [notes, setNotes] = useState([] as INote[]);
   const styles = useStyles();
   const Stack = createNativeStackNavigator();
 
   useEffect(() => {
-    getNotes().then((notes: any) => {
-      setNotes(notes);
-    });
-  }, []);
+    getName().then(name => {
+      getNotes().then((notes: any) => {
+        setNotes(notes.filter((note:INote) => note.author == name));
+      });
+    })
+  }, [isfocused]);
 
   return (
     <ScrollView style={styles.scrollContainer}>
