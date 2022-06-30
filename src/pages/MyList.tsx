@@ -26,14 +26,13 @@ export default function MyList({ navigation }: { navigation: any }) {
   return (
     <ScrollView style={styles.scrollContainer}>
       <View style={styles.py20}>
-        <Text style={styles.titre}>Modifier - filtrer par author == user</Text>
         <Text
-          style={styles.texte}
+          style={styles.titre}
           onPress={() => {
             navigation.navigate("EditNote");
           }}
         >
-          Go to detail
+          Vous pouvez éditer ou supprimer une note ici
         </Text>
       </View>
 
@@ -46,7 +45,6 @@ export default function MyList({ navigation }: { navigation: any }) {
             title={item.title}
             anonym={item.anonym}
             author={item.author}
-            date={item.creation_date}
             text={item.text}
             tags={item.tags}
             children={undefined}

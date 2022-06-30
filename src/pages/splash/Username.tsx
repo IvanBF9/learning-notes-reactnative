@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, Button } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import { useStyles } from "../../utils/style";
 import { MHeader, MText, MTitle, MInput } from "../../components/atoms";
 
@@ -21,8 +27,17 @@ export default function Ajout({
   const styles = useStyles();
   return (
     <View style={{ justifyContent: "center", ...styles.container }}>
-      <MInput placeholder="Nom d'utilisateur" onChangeText={setName}></MInput>
-      <Button title="Connexion" onPress={SendUser}></Button>
+      <View style={styles.py20}>
+        <MInput placeholder="Nom d'utilisateur" onChangeText={setName}></MInput>
+      </View>
+      <View style={styles.buttonCenter}>
+        <TouchableOpacity
+          onPress={SendUser}
+          style={{ ...styles.buttonCustom1 }}
+        >
+          <MText style={styles.texteBtn}>Connexion</MText>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

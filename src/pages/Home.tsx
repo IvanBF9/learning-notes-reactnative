@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView, ScrollView, Button } from "react-native";
 import { useStyles } from "../utils/style";
-import { MText, MTitle, MHeader, MInput, } from "../components/atoms";
-import {SearchBar} from '../components/molecules';
+import { MText, MTitle, MHeader, MInput } from "../components/atoms";
+import { SearchBar } from "../components/molecules";
 import { INote } from "../utils/interfaces";
 import { getNotes } from "../utils/api";
 import { Card } from "../components/molecules";
@@ -17,31 +17,33 @@ export default function Home({ navigation }: { navigation: any }) {
   const [notes, setNotes] = useState([] as INote[]);
   const [tags, setTags] = useState([] as string[]);
   const [displayedTags, setDisplayedTags] = useState(tags as string[]);
-  const [searchval, setSearchval] = useState('');
+  const [searchval, setSearchval] = useState("");
 
   useEffect(() => {
-    setDisplayedTags(tags.filter((tag:string) => tag.toUpperCase().includes(searchval.toUpperCase())));
-    
-  }, [searchval])
+    setDisplayedTags(
+      tags.filter((tag: string) =>
+        tag.toUpperCase().includes(searchval.toUpperCase())
+      )
+    );
+  }, [searchval]);
 
   useEffect(() => {
     getNotes().then((res: any) => setNotes(res));
   }, [isfocused]);
 
   useEffect(() => {
-    const _tags:string[] = [];
+    const _tags: string[] = [];
 
-    notes.map((note:INote) => {
+    notes.map((note: INote) => {
       const tg = note.tags;
-      for (const _t of tg){
-        if (!_tags.includes(_t)){
+      for (const _t of tg) {
+        if (!_tags.includes(_t)) {
           _tags.push(_t);
         }
       }
     });
 
     setTags(_tags);
-
   }, [notes]);
 
   console.log(displayedTags);
@@ -50,16 +52,21 @@ export default function Home({ navigation }: { navigation: any }) {
 
   return (
     <View>
-      <SearchBar onChangeText={setSearchval}></SearchBar>
+      <SearchBar onChangeText={setSearchval} style={styles.searchBar}>
+        Recherche
+      </SearchBar>
       <ScrollView style={styles.scrollContainer}>
-        <Text
-          style={styles.titre}
-          onPress={() => {
-            navigation.navigate("Detail");
-          }}
-        >
-          Home Go to detail
-        </Text>
+        <View style={styles.py20}>
+          <Text
+            style={styles.titre}
+            onPress={() => {
+              navigation.navigate("Detail");
+            }}
+          >
+            Appuyez sur une note pour afficher plus de détails
+          </Text>
+        </View>
+
         {notes.map((item, index) => {
           return (
             <Card
@@ -69,7 +76,6 @@ export default function Home({ navigation }: { navigation: any }) {
               title={item.title}
               anonym={item.anonym}
               author={item.author}
-              date={item.creation_date}
               text={item.text}
               tags={item.tags}
               children={undefined}

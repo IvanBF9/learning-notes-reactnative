@@ -44,7 +44,7 @@ export default function Detail({ navigation }: { navigation: any }) {
         ) : (
           <MText style={styles.author}>Auteur : {notes.author}</MText>
         )}
-        <MText>{notes.creation_date}</MText>
+        <MText style={styles.author}>{notes.creation_date}</MText>
         <MTitle>{notes.title}</MTitle>
         <MText>{notes.text}</MText>
       </View>

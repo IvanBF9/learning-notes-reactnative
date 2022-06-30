@@ -35,21 +35,7 @@ export default function App() {
     getNotes().then((res: any) => setNotes(res));
   }, []);
 
-  // console.log(notes)
   const styles = useStyles();
-
-  /*
-  useEffect(() => {
-    for(let i = 0; i< 3; i++){
-      createNote({
-        "title": "free data",
-        "author": "choco",
-        "anonym": false,
-        "text": "lorem",
-        "tags": []
-    })
-    }
-  },[])*/
 
   return (
     <NavigationContainer>
