@@ -26,11 +26,11 @@ export default function Home({ navigation }: { navigation: any }) {
     setDisplayedTags(tags.filter((tag:string) => tag.toUpperCase().includes(searchval.toUpperCase())));
     setDisplayedAuthors(authors.filter((aut:string) => aut.toUpperCase().includes(searchval.toUpperCase())));
   }, [searchval])
-
+/*
   useEffect(() => {
     getNotes().then((res: any) => setAllNotes(res));
   }, [isfocused]);
-
+*/
   useEffect(() => {
     const _tags:string[] = [];
     const _auteurs:string[] = [];
@@ -39,8 +39,7 @@ export default function Home({ navigation }: { navigation: any }) {
       if (!_auteurs.includes(note.author) && typeof note.author == 'string') {
         _auteurs.push(note.author);
       }
-      const tg = note.tags;
-      for (const _t of tg){
+      for (const _t of note.tags){
         if (!_tags.includes(_t) && typeof note.author == 'string'){
           _tags.push(_t);
         }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useStyles } from "../utils/style";
 import { MText, MTitle, MHeader } from "../components/atoms";
@@ -7,6 +7,7 @@ import { useRoute } from "@react-navigation/native";
 import { INote } from "../utils/interfaces";
 import { getNotes } from "../utils/api";
 import { Ionicons } from "@expo/vector-icons";
+import { NotesContext } from "../utils/contexts";
 
 export default function Detail({ navigation }: { navigation: any }) {
   const [notes, setNotes] = useState({} as INote);
@@ -14,13 +15,13 @@ export default function Detail({ navigation }: { navigation: any }) {
   const styles = useStyles();
   const route = useRoute();
   const { itemId } = route.params;
+  const {AllNotes, setAllNotes} = useContext(NotesContext);
 
   useEffect(() => {
-    getNotes().then((notes: any) => {
-      setNotes(notes.find((e: INote) => e._id == itemId));
-    });
+    const _notes:any = AllNotes;
+    setNotes(_notes.find((e: INote) => e._id == itemId));
   }, []);
-  console.log(notes);
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonBack}>
