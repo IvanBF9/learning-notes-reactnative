@@ -1,47 +1,55 @@
 import React, { useEffect, useState, useContext } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useStyles } from "../utils/style";
-import {SearchBar} from '../components/molecules';
+import { SearchBar } from "../components/molecules";
 import { INote } from "../utils/interfaces";
 import { getNotes } from "../utils/api";
 import { Card } from "../components/molecules";
 import { useIsFocused } from "@react-navigation/native";
 // Context
-import {NotesContext} from '../utils/contexts';
+import { NotesContext } from "../utils/contexts";
 
 export default function Home({ navigation }: { navigation: any }) {
   const isfocused = useIsFocused();
   const styles = useStyles();
 
   // Context
-  const {AllNotes, setAllNotes} = useContext(NotesContext);
+  const { AllNotes, setAllNotes } = useContext(NotesContext);
   // states
   const [tags, setTags] = useState([] as string[]);
   const [authors, setAuthors] = useState([] as string[]);
   const [displayedAuthors, setDisplayedAuthors] = useState([] as string[]);
   const [displayedTags, setDisplayedTags] = useState([] as string[]);
-  const [searchval, setSearchval] = useState('');
+  const [searchval, setSearchval] = useState("");
 
   useEffect(() => {
-    setDisplayedTags(tags.filter((tag:string) => tag.toUpperCase().includes(searchval.toUpperCase())));
-    setDisplayedAuthors(authors.filter((aut:string) => aut.toUpperCase().includes(searchval.toUpperCase())));
-  }, [searchval])
+    setDisplayedTags(
+      tags.filter((tag: string) =>
+        tag.toUpperCase().includes(searchval.toUpperCase())
+      )
+    );
+    setDisplayedAuthors(
+      authors.filter((aut: string) =>
+        aut.toUpperCase().includes(searchval.toUpperCase())
+      )
+    );
+  }, [searchval]);
 
   useEffect(() => {
     getNotes().then((res: any) => setAllNotes(res));
   }, [isfocused]);
 
   useEffect(() => {
-    const _tags:string[] = [];
-    const _auteurs:string[] = [];
+    const _tags: string[] = [];
+    const _auteurs: string[] = [];
 
-    AllNotes.map((note:INote) => {
-      if (!_auteurs.includes(note.author) && typeof note.author == 'string') {
+    AllNotes.map((note: INote) => {
+      if (!_auteurs.includes(note.author) && typeof note.author == "string") {
         _auteurs.push(note.author);
       }
       const tg = note.tags;
-      for (const _t of tg){
-        if (!_tags.includes(_t) && typeof note.author == 'string'){
+      for (const _t of tg) {
+        if (!_tags.includes(_t) && typeof note.author == "string") {
           _tags.push(_t);
         }
       }
@@ -49,7 +57,6 @@ export default function Home({ navigation }: { navigation: any }) {
 
     setAuthors(_auteurs);
     setTags(_tags);
-
   }, [AllNotes]);
 
   return (
@@ -59,12 +66,7 @@ export default function Home({ navigation }: { navigation: any }) {
       </SearchBar>
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.py20}>
-          <Text
-            style={styles.titre}
-            onPress={() => {
-              navigation.navigate("Detail");
-            }}
-          >
+          <Text style={styles.titre}>
             Appuyez sur une note pour afficher plus de détails
           </Text>
         </View>

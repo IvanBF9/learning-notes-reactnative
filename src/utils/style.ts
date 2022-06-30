@@ -20,6 +20,9 @@ export const useStyles = () => {
     py20: {
       paddingVertical: 20,
     },
+    pb20: {
+      paddingBottom: 20,
+    },
     headerBox: {
       display: "flex",
       flexDirection: "row",
@@ -27,6 +30,11 @@ export const useStyles = () => {
       borderBottomWidth: 1,
       width: "100%",
       padding: 20,
+    },
+    pageTop: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
     },
     headerTitre: {
       fontWeight: "bold",
@@ -110,6 +118,10 @@ export const useStyles = () => {
     searchBar: {
       paddingVertical: 5,
       paddingHorizontal: 20,
+    },
+    containerBtn: {
+      flexDirection: "column",
+      justifyContent: "space-between",
     },
   });
 };

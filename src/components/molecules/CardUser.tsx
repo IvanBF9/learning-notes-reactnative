@@ -55,7 +55,7 @@ export default function Card({
           {text}
         </MText>
       </View>
-      <View>
+      <View style={styles.containerBtn}>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("EditNote", {

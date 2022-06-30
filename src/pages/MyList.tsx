@@ -3,11 +3,11 @@ import { View, Text, ScrollView } from "react-native";
 import { useStyles } from "../utils/style";
 import { INote } from "../utils/interfaces";
 import { CardUser } from "../components/molecules";
-import { NotesContext, LoginContext } from '../utils/contexts';
+import { NotesContext, LoginContext } from "../utils/contexts";
 
 export default function MyList({ navigation }: { navigation: any }) {
-  const {AllNotes, setAllNotes} = useContext(NotesContext);
-  const {user, setUser} = useContext(LoginContext);
+  const { AllNotes, setAllNotes } = useContext(NotesContext);
+  const { user, setUser } = useContext(LoginContext);
   const [notes, setNotes] = useState([] as INote[]);
   const styles = useStyles();
 
@@ -18,12 +18,7 @@ export default function MyList({ navigation }: { navigation: any }) {
   return (
     <ScrollView style={styles.scrollContainer}>
       <View style={styles.py20}>
-        <Text
-          style={styles.titre}
-          onPress={() => {
-            navigation.navigate("EditNote");
-          }}
-        >
+        <Text style={styles.titre}>
           Vous pouvez éditer ou supprimer une note ici
         </Text>
       </View>
@@ -31,7 +26,7 @@ export default function MyList({ navigation }: { navigation: any }) {
       {notes.map((item, index) => {
         return (
           <CardUser
-            style={{ overflow: "hidden", height: 80 }}
+            style={{ overflow: "hidden", height: 40 }}
             key={index}
             id={item._id}
             title={item.title}
