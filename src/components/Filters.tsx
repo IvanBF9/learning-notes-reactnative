@@ -57,8 +57,9 @@ export default function Filters({
   };
 
   const resetFilters = () => {
-    setFilterTag("");
+    setFilterTag([]);
     setFilterAuthor("");
+    applyFilters();
   };
 
   return (
@@ -77,7 +78,7 @@ export default function Filters({
                       onPress={() => {
                         selectTag(tag);
                       }}
-                      key={index}
+                      key={tag}
                     >
                       <Text style={styles.texteTag}>{tag}</Text>
                     </TouchableOpacity>
@@ -89,7 +90,7 @@ export default function Filters({
                     onPress={() => {
                       selectTag(tag);
                     }}
-                    key={index}
+                    key={tag}
                   >
                     <Text>{tag}</Text>
                   </TouchableOpacity>
