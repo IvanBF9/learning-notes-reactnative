@@ -17,6 +17,13 @@ export interface CreateNote {
   image?: string;
 }
 
+export interface EditNote {
+  title: string;
+  tags?: string[];
+  text: string;
+  image?: string;
+}
+
 export interface DeleteNote {
   _id: string;
 }

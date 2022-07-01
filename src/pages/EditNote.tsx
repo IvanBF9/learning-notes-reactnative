@@ -15,18 +15,18 @@ export default function EditNote({ navigation }: { navigation: any }) {
   const route = useRoute();
   const { itemId } = route.params;
 
+  const date = new Date(notes.creation_date);
+  const year = date.getFullYear();
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const day = ("0" + date.getDate()).slice(-2);
+  const hour = ("0" + date.getHours()).slice(-2);
+  const minute = ("0" + date.getMinutes()).slice(-2);
+  const dateNote = day + "/" + month + "/" + year + " à " + hour + ":" + minute;
+
   /*const setKey = {
     title: (val: string) =>
       setNote((old: CreateNote) => {
         return { ...old, title: val };
-      }),
-    author: (val: string) =>
-      setNote((old: CreateNote) => {
-        return { ...old, author: val };
-      }),
-    anonym: (val: boolean) =>
-      setNote((old: CreateNote) => {
-        return { ...old, anonym: val };
       }),
     text: (val: string) =>
       setNote((old: CreateNote) => {
@@ -64,13 +64,6 @@ export default function EditNote({ navigation }: { navigation: any }) {
 
   const _Send = () => {
     const val = { ...note };
-    val.anonym = anonym;
-    if (!val.tags) val.tags = [];
-
-    if (anonym) {
-      val.author = "";
-      return create(val);
-    }
     getName().then((name: any) => {
       val.author = name;
       return create(val);
@@ -103,8 +96,9 @@ export default function EditNote({ navigation }: { navigation: any }) {
       </View>
 
       <View style={styles.py20}>
-        <MText style={styles.author}>{notes.creation_date}</MText>
-
+        <MText style={styles.author}>Publié le {dateNote}</MText>
+      </View>
+      <View style={styles.py20}>
         <MTitle>{notes.title}</MTitle>
         <MText>{notes.text}</MText>
       </View>
