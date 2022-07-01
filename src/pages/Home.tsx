@@ -62,7 +62,7 @@ export default function Home({ navigation }: { navigation: any }) {
   }, [AllNotes]);
 
   const applyFilters = () => {
-    console.log(filterTag)
+
     if (filterTag.length == 0 && filterAuthor == '') return setDisplayedNotes(AllNotes);
 
     if (filterTag.length > 0 && filterAuthor != '') return setDisplayedNotes(AllNotes.filter(note => note.author == filterAuthor && note.tags.some(r=> filterTag.includes(r))));
