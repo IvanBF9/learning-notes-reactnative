@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, SafeAreaView, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { useStyles } from "../utils/style";
 import { MText, MTitle, MHeader } from "../components/atoms";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -54,8 +60,26 @@ export default function Detail({ navigation }: { navigation: any }) {
         <MText style={styles.author}>Publié le {dateNote}</MText>
         <MTitle>{notes.title}</MTitle>
         <MText>{notes.text}</MText>
-        {notes.image ? <Image source={{ uri: notes.image }} style={{ width: 200, height: 200 }} /> : null}
+        {notes.image ? (
+          <Image
+            source={{ uri: notes.image }}
+            style={{ width: 200, height: 200 }}
+          />
+        ) : null}
       </View>
+      {notes.tags ? (
+        <View style={{ ...styles.containerItems, maxHeight: "auto" }}>
+          {notes.tags.map((item, index) => {
+            return (
+              <View style={styles.choiceActive} key={index}>
+                <Text>{item}</Text>
+              </View>
+            );
+          })}
+        </View>
+      ) : (
+        <View></View>
+      )}
     </View>
   );
 }

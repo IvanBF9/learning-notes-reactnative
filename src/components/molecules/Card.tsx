@@ -52,6 +52,19 @@ export default function Card({
         ) : (
           <Text style={styles.author}>{author}</Text>
         )}
+        {tags ? (
+          <View style={styles.containerItems}>
+            {tags.map((item, index) => {
+              return (
+                <View style={styles.choiceActive} key={index}>
+                  <Text>{item}</Text>
+                </View>
+              );
+            })}
+          </View>
+        ) : (
+          <View></View>
+        )}
       </TouchableOpacity>
     </View>
   );

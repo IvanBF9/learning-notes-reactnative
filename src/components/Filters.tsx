@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 import colors from "../utils/colors";
 import { useStyles } from "../utils/style";
 import { MText } from "./atoms";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 export default function Filters({
   displayedAuthors,
@@ -30,7 +30,7 @@ export default function Filters({
 
   const selectAuthor = (value: string) => {
     if (value == filterAuthor) setFilterAuthor("");
-     setFilterAuthor(value);
+    setFilterAuthor(value);
   };
 
   const selectTag = (value: string) => {
@@ -48,6 +48,11 @@ export default function Filters({
     }
   };
 
+  const resetFilters = () => {
+    setFilterTag("");
+    setFilterAuthor("");
+  };
+
   return (
     <View style={styles.containerSearchFilters}>
       {isOpenFilterBox ? (
@@ -56,7 +61,7 @@ export default function Filters({
           <View style={styles.filtersContent}>
             <Text style={styles.titleMd}>Tags</Text>
             <View style={styles.containerItems}>
-              {displayedTags.map((tag) => {
+              {displayedTags.map((tag, index) => {
                 if (tag != filterTag) {
                   return (
                     <TouchableOpacity
@@ -64,6 +69,7 @@ export default function Filters({
                       onPress={() => {
                         selectTag(tag);
                       }}
+                      key={index}
                     >
                       <Text style={styles.texteTag}>{tag}</Text>
                     </TouchableOpacity>
@@ -73,8 +79,9 @@ export default function Filters({
                   <TouchableOpacity
                     style={styles.choiceActive}
                     onPress={() => {
-                        selectTag(tag);
+                      selectTag(tag);
                     }}
+                    key={index}
                   >
                     <Text>{tag}</Text>
                   </TouchableOpacity>
@@ -85,7 +92,7 @@ export default function Filters({
           <View style={styles.filtersContent}>
             <Text style={styles.titleMd}>Auteurs</Text>
             <View style={styles.containerItems}>
-              {displayedAuthors.map((auteur) => {
+              {displayedAuthors.map((auteur, index) => {
                 if (auteur != filterAuthor) {
                   return (
                     <TouchableOpacity
@@ -93,6 +100,7 @@ export default function Filters({
                       onPress={() => {
                         selectAuthor(auteur);
                       }}
+                      key={index}
                     >
                       <Text style={styles.texteTag}>{auteur}</Text>
                     </TouchableOpacity>
@@ -102,8 +110,9 @@ export default function Filters({
                   <TouchableOpacity
                     style={styles.choiceActive}
                     onPress={() => {
-                        selectAuthor(auteur);
+                      selectAuthor(auteur);
                     }}
+                    key={index}
                   >
                     <Text>{auteur}</Text>
                   </TouchableOpacity>
@@ -125,6 +134,15 @@ export default function Filters({
               style={{ ...styles.buttonCustom1 }}
             >
               <MText style={styles.texteBtn}>Appliquer les filtres</MText>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                resetFilters();
+              }}
+              style={{ ...styles.buttonCustom1 }}
+            >
+              <Ionicons name="reload" size={24} color="black" />
             </TouchableOpacity>
           </View>
         </View>

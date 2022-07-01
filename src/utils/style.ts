@@ -53,7 +53,7 @@ export const useStyles = () => {
       justifyContent: "space-between",
       width: "100%",
       backgroundColor: colors.background,
-      marginVertical: 5,
+      //marginVertical: 5,
       padding: 10,
       borderRadius: 4,
     },
@@ -77,6 +77,10 @@ export const useStyles = () => {
     containerBtn: {
       flexDirection: "column",
       justifyContent: "space-between",
+    },
+    containerCardUser: {
+      backgroundColor: colors.background,
+      marginVertical: 5,
     },
     containerFilters: {
       backgroundColor: colors.primary,

@@ -1,20 +1,26 @@
-import React, {useState, useEffect, useContext} from "react";
-import { View, Text, SafeAreaView, Button, Switch, Alert, PermissionsAndroid, Image } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Button,
+  Switch,
+  Alert,
+  PermissionsAndroid,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { useStyles } from "../utils/style";
 import { MHeader, MText, MTitle, MInput } from "../components/atoms";
-import {getNotes, createNote, deleteNote, editNote} from '../utils/api';
-import {CreateNote} from '../utils/interfaces';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import { NotesContext } from '../utils/contexts';
+import { getNotes, createNote, deleteNote, editNote } from "../utils/api";
+import { CreateNote } from "../utils/interfaces";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { NotesContext } from "../utils/contexts";
 import { getName } from "../utils/storage";
-import * as ImagePicker from 'expo-image-picker';
-
-
+import * as ImagePicker from "expo-image-picker";
 
 export default function Ajout({ navigation }: { navigation: any }) {
-
-  const [image, setImage] = useState('');
-
+  const [image, setImage] = useState("");
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -22,29 +28,26 @@ export default function Ajout({ navigation }: { navigation: any }) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      width: 200, 
+      width: 200,
       height: 200,
       quality: 0,
-      base64: true
+      base64: true,
     });
 
     if (!result.cancelled) {
-      if (result.base64){
+      if (result.base64) {
         setImage(`data:image/${result.type};base64,${result.base64}`);
       }
-      
     }
   };
 
-
-  const {AllNotes, setAllNotes} = useContext(NotesContext);
+  const { AllNotes, setAllNotes } = useContext(NotesContext);
   const [note, setNote] = useState({} as CreateNote);
   const [anonym, setAnonym] = useState(false);
 
   const splitTags = (val: string) => {
     return val.split(",") as [];
   };
-
 
   const setKey = {
     title: (val: string) =>
@@ -81,15 +84,15 @@ export default function Ajout({ navigation }: { navigation: any }) {
       [{ text: "OK" }]
     );
 
-  const create = (val:CreateNote) => {
-    const {title, text} = val;
-    if (title && text && title.length > 3 && text.length > 0){
+  const create = (val: CreateNote) => {
+    const { title, text } = val;
+    if (title && text && title.length > 3 && text.length > 0) {
       val.image = image;
-      createNote(val).then( e => {
+      createNote(val).then((e) => {
         getNotes().then((notes: any) => {
-          setAllNotes(notes)
+          setAllNotes(notes);
         });
-        navigation.navigate('Home');
+        navigation.navigate("Home");
         setNote({} as CreateNote);
       });
     } else {
@@ -124,26 +127,37 @@ export default function Ajout({ navigation }: { navigation: any }) {
           value={note.title}
           onChangeText={setKey.title}
           placeholder="Titre"
-        >
-        </MInput>
+        ></MInput>
         <MInput
           value={note.text}
           onChangeText={setKey.text}
           placeholder="Contenu"
           multiline
           numberOfLines={4}
+        ></MInput>
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-        </MInput>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          {image ? <Image source={{ uri: image }} style={{ width: 200, height: 200 }} /> : null}
-          <Button title="Ajouter une image" onPress={pickImage} />
+          {image ? (
+            <Image
+              source={{ uri: image }}
+              style={{ width: 200, height: 200 }}
+            />
+          ) : null}
+          <View style={styles.buttonCenter}>
+            <TouchableOpacity
+              onPress={pickImage}
+              style={{ ...styles.buttonCustom1 }}
+            >
+              <MText style={styles.texteBtn}>Ajouter une image</MText>
+            </TouchableOpacity>
+          </View>
         </View>
         <MInput
           value={tagsToString()}
           onChangeText={setKey.tags}
           placeholder="Tags séparés par des virgules"
-        >
-        </MInput>
+        ></MInput>
         <View style={{ flexDirection: "row" }}>
           <MText style={{ margin: 8 }}>Anonyme</MText>
           <Switch
@@ -153,7 +167,11 @@ export default function Ajout({ navigation }: { navigation: any }) {
             value={anonym}
           />
         </View>
-        <Button onPress={_Send} title="Ajouter"></Button>
+        <View style={styles.buttonCenter}>
+          <TouchableOpacity onPress={_Send} style={{ ...styles.buttonCustom1 }}>
+            <MText style={styles.texteBtn}>Ajouter</MText>
+          </TouchableOpacity>
+        </View>
       </KeyboardAwareScrollView>
     </View>
   );

@@ -10,10 +10,12 @@ import {
 import { useStyles } from "../../utils/style";
 
 export default function SearchBar({
+  onChangeText,
   children,
   style = {},
   ...other
 }: {
+  onChangeText?: React.Dispatch<React.SetStateAction<string>>;
   children?: React.ReactNode;
   style?: TextStyle;
   other?: any;
