@@ -34,7 +34,15 @@ export default function Filters({
   };
 
   const selectTag = (value: string) => {
-    if (filterTag.includes(value)) return;
+    if (filterTag.includes(value)) return setFilterTag((old) => { 
+        let temp = [...old];
+        let _index = temp.indexOf(value);
+        if (_index) {
+            temp.splice(_index, 1);
+            return temp;
+        }
+        return [...old]
+    });
      setFilterTag((old) => { return [...old,value];})
     };
 
