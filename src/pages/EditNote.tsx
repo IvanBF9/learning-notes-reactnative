@@ -48,7 +48,7 @@ export default function Ajout({ navigation }: { navigation: any }) {
 
   useEffect(() => {
     setNote(notes);
-    setImage(notes.image)
+    if (notes.image) setImage(notes.image)
   }, [notes])
 
   const splitTags = (val: string) => {
@@ -90,7 +90,7 @@ export default function Ajout({ navigation }: { navigation: any }) {
       [{ text: "OK" }]
     );
 
-  const create = (val:CreateNote) => {
+  const edit = (val:CreateNote) => {
     const {title, text} = val;
     if (title && text && title.length > 3 && text.length > 0){
       editNote({obj:val, id:itemId}).then( e => {
@@ -110,15 +110,16 @@ export default function Ajout({ navigation }: { navigation: any }) {
   const _Send = () => {
     const val = { ...note };
     val.anonym = anonym;
+    if (image) val.image = image;
     if (!val.tags) val.tags = [];
 
     if (anonym) {
       val.author = "";
-      return create(val);
+      return edit(val);
     }
     getName().then((name: any) => {
       val.author = name;
-      return create(val);
+      return edit(val);
     });
   };
 
