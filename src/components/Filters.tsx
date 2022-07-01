@@ -29,8 +29,8 @@ export default function Filters({
   const styles = useStyles();
 
   const selectAuthor = (value: string) => {
-    if (value == filterAuthor) return setFilterAuthor("");
-    return setFilterAuthor(value);
+    if (value == filterAuthor) setFilterAuthor("");
+     setFilterAuthor(value);
   };
 
   const selectTag = (value: string) => {
@@ -73,7 +73,7 @@ export default function Filters({
                   <TouchableOpacity
                     style={styles.choiceActive}
                     onPress={() => {
-                      selectAuthor(tag);
+                        selectTag(tag);
                     }}
                   >
                     <Text>{tag}</Text>
@@ -91,7 +91,7 @@ export default function Filters({
                     <TouchableOpacity
                       style={styles.choice}
                       onPress={() => {
-                        setFilterAuthor(auteur);
+                        selectAuthor(auteur);
                       }}
                     >
                       <Text style={styles.texteTag}>{auteur}</Text>
@@ -102,7 +102,7 @@ export default function Filters({
                   <TouchableOpacity
                     style={styles.choiceActive}
                     onPress={() => {
-                      setFilterAuthor(auteur);
+                        selectAuthor(auteur);
                     }}
                   >
                     <Text>{auteur}</Text>
