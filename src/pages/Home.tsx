@@ -45,11 +45,11 @@ export default function Home({ navigation }: { navigation: any }) {
     const _auteurs: string[] = [];
 
     AllNotes.map((note: INote) => {
-      if (!_auteurs.includes(note.author) && typeof note.author == "string") {
+      if (!_auteurs.includes(note.author) && typeof note.author == "string" && note.author.length > 1) {
         _auteurs.push(note.author);
       }
       for (const _t of note.tags) {
-        if (!_tags.includes(_t) && typeof note.author == "string") {
+        if (!_tags.includes(_t) && typeof _t == "string" && _t.length > 1) {
           _tags.push(_t);
         }
       }
