@@ -50,6 +50,13 @@ export default function Home({ navigation }: { navigation: any }) {
       }
     });
 
+    const applyFilters = () => {
+      if (filterTag == '' && filterAuthor == '') return;
+
+      if (filterTag != '' && filterAuthor != '') return;
+
+    }
+
     setAuthors(_auteurs);
     setTags(_tags);
   }, [AllNotes]);
