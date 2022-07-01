@@ -1,8 +1,7 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, Ionicons, Feather } from "@expo/vector-icons";
-import { Home, MyList, Ajout } from "../pages";
+import { Ajout } from "../pages";
 import { HomeStack, MyNotesStack } from ".";
 
 const Tab = createBottomTabNavigator();

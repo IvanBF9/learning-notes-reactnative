@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Button,
-  Switch,
-  Alert,
-  PermissionsAndroid,
-} from "react-native";
+import React, {useState, useEffect, useContext} from "react";
+import { View, Text, SafeAreaView, Button, Switch, Alert, PermissionsAndroid } from "react-native";
 import { useStyles } from "../utils/style";
 import { MHeader, MText, MTitle, MInput } from "../components/atoms";
-import { getNotes, createNote, deleteNote, editNote } from "../utils/api";
-import { CreateNote } from "../utils/interfaces";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+import {getNotes, createNote, deleteNote, editNote} from '../utils/api';
+import {CreateNote} from '../utils/interfaces';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { NotesContext } from '../utils/contexts';
 import { getName } from "../utils/storage";
 
 const requestCameraPermission = async () => {
@@ -41,6 +34,7 @@ const requestCameraPermission = async () => {
 };
 
 export default function Ajout({ navigation }: { navigation: any }) {
+  const {AllNotes, setAllNotes} = useContext(NotesContext);
   const [note, setNote] = useState({} as CreateNote);
   const [anonym, setAnonym] = useState(false);
 
@@ -92,11 +86,14 @@ export default function Ajout({ navigation }: { navigation: any }) {
       [{ text: "OK" }]
     );
 
-  const create = (val: CreateNote) => {
-    const { title, text } = val;
-    if (title && text && title.length > 3 && text.length > 0) {
-      createNote(val).then((e) => {
-        navigation.navigate("Home");
+  const create = (val:CreateNote) => {
+    const {title, text} = val;
+    if (title && text && title.length > 3 && text.length > 0){
+      createNote(val).then( e => {
+        getNotes().then((notes: any) => {
+          setAllNotes(notes)
+        });
+        navigation.navigate('Home');
         setNote({} as CreateNote);
       });
     } else {

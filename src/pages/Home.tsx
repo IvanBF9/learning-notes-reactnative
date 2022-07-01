@@ -20,25 +20,20 @@ export default function Home({ navigation }: { navigation: any }) {
   const [authors, setAuthors] = useState([] as string[]);
   const [displayedAuthors, setDisplayedAuthors] = useState([] as string[]);
   const [displayedTags, setDisplayedTags] = useState([] as string[]);
-  const [searchval, setSearchval] = useState("");
+  const [searchval, setSearchval] = useState('');
+  // Filters states
+  const [filterTag, setFilterTag] = useState('');
+  const [filterAuthor, setFilterAuthor] = useState('');
 
   useEffect(() => {
-    setDisplayedTags(
-      tags.filter((tag: string) =>
-        tag.toUpperCase().includes(searchval.toUpperCase())
-      )
-    );
-    setDisplayedAuthors(
-      authors.filter((aut: string) =>
-        aut.toUpperCase().includes(searchval.toUpperCase())
-      )
-    );
-  }, [searchval]);
-
+    setDisplayedTags(tags.filter((tag:string) => tag.toUpperCase().includes(searchval.toUpperCase())));
+    setDisplayedAuthors(authors.filter((aut:string) => aut.toUpperCase().includes(searchval.toUpperCase())));
+  }, [searchval])
+/*
   useEffect(() => {
     getNotes().then((res: any) => setAllNotes(res));
   }, [isfocused]);
-
+*/
   useEffect(() => {
     const _tags: string[] = [];
     const _auteurs: string[] = [];
@@ -47,9 +42,8 @@ export default function Home({ navigation }: { navigation: any }) {
       if (!_auteurs.includes(note.author) && typeof note.author == "string") {
         _auteurs.push(note.author);
       }
-      const tg = note.tags;
-      for (const _t of tg) {
-        if (!_tags.includes(_t) && typeof note.author == "string") {
+      for (const _t of note.tags){
+        if (!_tags.includes(_t) && typeof note.author == 'string'){
           _tags.push(_t);
         }
       }

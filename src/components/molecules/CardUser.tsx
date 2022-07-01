@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { NotesContext } from "../../utils/contexts";
+import {getNotes} from '../../utils/api';
+
 import {
   Alert,
   Text,
@@ -35,14 +38,18 @@ export default function Card({
   children: React.ReactNode;
   style?: TextStyle;
 }) {
+  const {AllNotes, setAllNotes} = useContext(NotesContext);
   const styles = useStyles();
-  const [note, setNote] = useState({} as DeleteNote);
 
   const alerte = () => Alert.alert("Note supprimée");
 
   const deleteItem = (val: DeleteNote) => {
-    deleteNote(id);
-    alerte();
+    deleteNote(id).then(() => {
+      alerte();
+      getNotes().then((nts:any) => {
+        setAllNotes(nts);
+      });
+    });
   };
 
   return (
