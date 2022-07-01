@@ -59,6 +59,8 @@ const deleteNote = async (id:string) => {
 
 const editNote = async ({obj, id}: {obj:CreateNote, id:string}) => {
     try{
+        console.log(obj);
+        console.log(id);
         const res = await axios({
             method: 'PUT',
             url: `${_url}note/${id}`,

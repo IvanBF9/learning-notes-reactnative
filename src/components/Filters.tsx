@@ -120,7 +120,7 @@ export default function Filters({
           >
             <TouchableOpacity
               onPress={() => {
-                applyFilters;
+                applyFilters()
               }}
               style={{ ...styles.buttonCustom1 }}
             >

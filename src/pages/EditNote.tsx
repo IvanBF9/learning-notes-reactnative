@@ -1,32 +1,72 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import React, {useState, useEffect, useContext} from "react";
+import { View, Text, SafeAreaView, Button, Switch, Alert, PermissionsAndroid, Image } from "react-native";
 import { useStyles } from "../utils/style";
-import { MText, MTitle, MHeader, MInput } from "../components/atoms";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useRoute } from "@react-navigation/native";
+import { MHeader, MText, MTitle, MInput } from "../components/atoms";
+import {getNotes, createNote, deleteNote, editNote} from '../utils/api';
+import {CreateNote} from '../utils/interfaces';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { NotesContext } from '../utils/contexts';
+import { getName } from "../utils/storage";
 import { INote } from "../utils/interfaces";
-import { getNotes } from "../utils/api";
-import { Ionicons } from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native";
+import * as ImagePicker from 'expo-image-picker';
 
-export default function EditNote({ navigation }: { navigation: any }) {
-  const [notes, setNotes] = useState({} as INote);
-
-  const styles = useStyles();
+export default function Ajout({ navigation }: { navigation: any }) {
   const route = useRoute();
   const { itemId } = route.params;
+  const {AllNotes, setAllNotes} = useContext(NotesContext);
+  const [note, setNote] = useState({} as CreateNote);
+  const [notes, setNotes] = useState({} as INote);
+  const [anonym, setAnonym] = useState(false);
+  const [image, setImage] = useState('');
 
-  const date = new Date(notes.creation_date);
-  const year = date.getFullYear();
-  const month = ("0" + (date.getMonth() + 1)).slice(-2);
-  const day = ("0" + date.getDate()).slice(-2);
-  const hour = ("0" + date.getHours()).slice(-2);
-  const minute = ("0" + date.getMinutes()).slice(-2);
-  const dateNote = day + "/" + month + "/" + year + " à " + hour + ":" + minute;
 
-  /*const setKey = {
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      width: 200, 
+      height: 200,
+      quality: 0,
+      base64: true
+    });
+
+    if (!result.cancelled) {
+      if (result.base64){
+        setImage(`data:image/${result.type};base64,${result.base64}`);
+      }
+      
+    }
+  };
+
+  useEffect(() => {
+    const _notes: any = AllNotes;
+    setNotes(_notes.find((e: INote) => e._id == itemId));
+  }, []);
+
+  useEffect(() => {
+    setNote(notes);
+    setImage(notes.image)
+  }, [notes])
+
+  const splitTags = (val: string) => {
+    return val.split(",") as [];
+  };
+
+  const setKey = {
     title: (val: string) =>
       setNote((old: CreateNote) => {
         return { ...old, title: val };
+      }),
+    author: (val: string) =>
+      setNote((old: CreateNote) => {
+        return { ...old, author: val };
+      }),
+    anonym: (val: boolean) =>
+      setNote((old: CreateNote) => {
+        return { ...old, anonym: val };
       }),
     text: (val: string) =>
       setNote((old: CreateNote) => {
@@ -50,11 +90,16 @@ export default function EditNote({ navigation }: { navigation: any }) {
       [{ text: "OK" }]
     );
 
-  const create = (val: CreateNote) => {
-    const { title, text } = val;
-    if (title && text && title.length > 3 && text.length > 0) {
-      createNote(val).then((e) => {
-        navigation.navigate("Home");
+  const create = (val:CreateNote) => {
+    const {title, text} = val;
+    if (title && text && title.length > 3 && text.length > 0){
+      editNote({obj:val, id:itemId}).then( e => {
+        getNotes().then((notes: any) => {
+          setAllNotes(notes)
+          navigation.navigate("Detail", {
+            itemId: itemId,
+          });
+        });
         setNote({} as CreateNote);
       });
     } else {
@@ -64,47 +109,64 @@ export default function EditNote({ navigation }: { navigation: any }) {
 
   const _Send = () => {
     const val = { ...note };
+    val.anonym = anonym;
+    if (!val.tags) val.tags = [];
+
+    if (anonym) {
+      val.author = "";
+      return create(val);
+    }
     getName().then((name: any) => {
       val.author = name;
       return create(val);
     });
-  };*/
+  };
 
-  useEffect(() => {
-    getNotes().then((notes: any) => {
-      setNotes(notes.find((e: INote) => e._id == itemId));
-    });
-  }, []);
-
+  const styles = useStyles();
   return (
     <View style={styles.container}>
-      <View style={styles.buttonBack}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("MyList");
-          }}
-          style={{ ...styles.buttonCustom1 }}
+      <KeyboardAwareScrollView>
+        <View style={styles.pb20}>
+          <Text style={styles.titre}>Ajoutez une note ici</Text>
+        </View>
+        <MInput
+          value={note.title}
+          onChangeText={setKey.title}
+          placeholder="Titre"
         >
-          <Ionicons
-            name="arrow-back"
-            size={24}
-            color="black"
-            style={{ ...styles.buttonIcon }}
+          Ajouter
+        </MInput>
+        <MInput
+          value={note.text}
+          onChangeText={setKey.text}
+          placeholder="Contenu"
+          multiline
+          numberOfLines={4}
+        >
+          Ajouter
+        </MInput>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          {image ? <Image source={{ uri: image }} style={{ width: 200, height: 200 }} /> : null}
+          <Button title="Modifier une image" onPress={pickImage} />
+        </View>
+        <MInput
+          value={tagsToString()}
+          onChangeText={setKey.tags}
+          placeholder="Tags séparés par des virgules"
+        >
+          Ajouter
+        </MInput>
+        <View style={{ flexDirection: "row" }}>
+          <MText style={{ margin: 8 }}>Anonyme</MText>
+          <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={setAnonym}
+            value={anonym}
           />
-        </TouchableOpacity>
-        <Text style={styles.titre}>Editez cette note</Text>
-      </View>
-
-      <View style={styles.py20}>
-        <MText style={styles.author}>Publié le {dateNote}</MText>
-      </View>
-      <View style={styles.py20}>
-        <MTitle>{notes.title}</MTitle>
-        <MText>{notes.text}</MText>
-      </View>
+        </View>
+        <Button onPress={_Send} title="Modifier"></Button>
+      </KeyboardAwareScrollView>
     </View>
   );
 }
-/*<Input value="toto" onChangeText={setKey.title}>
-          {notes.title}
-        </Input>*/

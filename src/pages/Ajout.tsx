@@ -1,39 +1,42 @@
 import React, {useState, useEffect, useContext} from "react";
-import { View, Text, SafeAreaView, Button, Switch, Alert, PermissionsAndroid } from "react-native";
+import { View, Text, SafeAreaView, Button, Switch, Alert, PermissionsAndroid, Image } from "react-native";
 import { useStyles } from "../utils/style";
 import { MHeader, MText, MTitle, MInput } from "../components/atoms";
 import {getNotes, createNote, deleteNote, editNote} from '../utils/api';
 import {CreateNote} from '../utils/interfaces';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { NotesContext } from '../utils/contexts';
 import { getName } from "../utils/storage";
+import * as ImagePicker from 'expo-image-picker';
 
-const requestCameraPermission = async () => {
-  try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.CAMERA,
-      {
-        title: "Cool Photo App Camera Permission",
-        message:
-          "Cool Photo App needs access to your camera " +
-          "so you can take awesome pictures.",
-        buttonNeutral: "Ask Me Later",
-        buttonNegative: "Cancel",
-        buttonPositive: "OK",
-      }
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log("You can use the camera");
-    } else {
-      console.log("Camera permission denied");
-    }
-  } catch (err) {
-    console.warn(err);
-  }
-};
+
 
 export default function Ajout({ navigation }: { navigation: any }) {
+
+  const [image, setImage] = useState('');
+
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      width: 200, 
+      height: 200,
+      quality: 0,
+      base64: true
+    });
+
+    if (!result.cancelled) {
+      if (result.base64){
+        setImage(`data:image/${result.type};base64,${result.base64}`);
+      }
+      
+    }
+  };
+
+
   const {AllNotes, setAllNotes} = useContext(NotesContext);
   const [note, setNote] = useState({} as CreateNote);
   const [anonym, setAnonym] = useState(false);
@@ -42,14 +45,6 @@ export default function Ajout({ navigation }: { navigation: any }) {
     return val.split(",") as [];
   };
 
-  const _lib = () => {
-    requestCameraPermission();
-    //launchImageLibrary({mediaType: 'photo'}).then((e) => console.log(e));
-  };
-
-  const _pic = () => {
-    launchCamera({ mediaType: "photo" });
-  };
 
   const setKey = {
     title: (val: string) =>
@@ -89,6 +84,7 @@ export default function Ajout({ navigation }: { navigation: any }) {
   const create = (val:CreateNote) => {
     const {title, text} = val;
     if (title && text && title.length > 3 && text.length > 0){
+      val.image = image;
       createNote(val).then( e => {
         getNotes().then((notes: any) => {
           setAllNotes(notes)
@@ -117,6 +113,7 @@ export default function Ajout({ navigation }: { navigation: any }) {
   };
 
   const styles = useStyles();
+
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView>
@@ -128,7 +125,6 @@ export default function Ajout({ navigation }: { navigation: any }) {
           onChangeText={setKey.title}
           placeholder="Titre"
         >
-          Ajouter
         </MInput>
         <MInput
           value={note.text}
@@ -137,21 +133,16 @@ export default function Ajout({ navigation }: { navigation: any }) {
           multiline
           numberOfLines={4}
         >
-          Ajouter
         </MInput>
-        <MInput
-          value={note.image}
-          onChangeText={setKey.title}
-          placeholder="Image"
-        >
-          Ajouter
-        </MInput>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          {image ? <Image source={{ uri: image }} style={{ width: 200, height: 200 }} /> : null}
+          <Button title="Ajouter une image" onPress={pickImage} />
+        </View>
         <MInput
           value={tagsToString()}
           onChangeText={setKey.tags}
           placeholder="Tags séparés par des virgules"
         >
-          Ajouter
         </MInput>
         <View style={{ flexDirection: "row" }}>
           <MText style={{ margin: 8 }}>Anonyme</MText>
@@ -162,9 +153,7 @@ export default function Ajout({ navigation }: { navigation: any }) {
             value={anonym}
           />
         </View>
-        <Button onPress={_Send} title="send"></Button>
-        <Button onPress={_lib} title="test"></Button>
-        <Button onPress={_pic} title="Pic"></Button>
+        <Button onPress={_Send} title="Ajouter"></Button>
       </KeyboardAwareScrollView>
     </View>
   );

@@ -23,22 +23,19 @@ export default function Home({ navigation }: { navigation: any }) {
   const [displayedTags, setDisplayedTags] = useState([] as string[]);
   const [searchval, setSearchval] = useState("");
   // Filters states
-  const [filterTag, setFilterTag] = useState("");
-  const [filterAuthor, setFilterAuthor] = useState("");
+  const [filterTag, setFilterTag] = useState('');
+  const [filterAuthor, setFilterAuthor] = useState('');
+  const [displayedNotes, setDisplayedNotes] = useState(AllNotes);
 
   useEffect(() => {
-    setDisplayedTags(
-      tags.filter((tag: string) =>
-        tag.toUpperCase().includes(searchval.toUpperCase())
-      )
-    );
-    setDisplayedAuthors(
-      authors.filter((aut: string) =>
-        aut.toUpperCase().includes(searchval.toUpperCase())
-      )
-    );
+    setDisplayedTags(tags.filter((tag:string) => tag.toUpperCase().includes(searchval.toUpperCase())));
+    setDisplayedAuthors(authors.filter((aut:string) => aut.toUpperCase().includes(searchval.toUpperCase())));
   }, [searchval]);
-  /*
+
+  useEffect(() => {
+    setDisplayedNotes(AllNotes)
+  },[AllNotes])
+/*
   useEffect(() => {
     getNotes().then((res: any) => setAllNotes(res));
   }, [isfocused]);
@@ -58,15 +55,23 @@ export default function Home({ navigation }: { navigation: any }) {
       }
     });
 
-    const applyFilters = () => {
-      if (filterTag == "" && filterAuthor == "") return;
-
-      if (filterTag != "" && filterAuthor != "") return;
-    };
-
     setAuthors(_auteurs);
     setTags(_tags);
+    setDisplayedAuthors(_auteurs);
+    setDisplayedTags(_tags);
   }, [AllNotes]);
+
+  const applyFilters = () => {
+    console.log(filterAuthor)
+    if (filterTag == '' && filterAuthor == '') return setDisplayedNotes(AllNotes);
+
+    if (filterTag != '' && filterAuthor != '') return setDisplayedNotes(AllNotes.filter(note => note.author == filterAuthor && note.tags.includes(filterTag)));
+
+    if (filterTag != '' ) return setDisplayedNotes(AllNotes.filter(note => note.tags.includes(filterTag)));
+
+    if (filterAuthor != '') return setDisplayedNotes(AllNotes.filter(note => note.author == filterAuthor));
+  }
+
 
   return (
     <View style={styles.containerFilters}>
@@ -78,6 +83,7 @@ export default function Home({ navigation }: { navigation: any }) {
         setSearchval={setSearchval}
         filterTag={filterTag}
         filterAuthor={filterAuthor}
+        applyFilters={applyFilters}
       />
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.py20}>
@@ -86,7 +92,7 @@ export default function Home({ navigation }: { navigation: any }) {
           </Text>
         </View>
 
-        {AllNotes.map((item, index) => {
+        {displayedNotes.map((item, index) => {
           return (
             <Card
               style={{ overflow: "hidden", maxHeight: 40 }}
