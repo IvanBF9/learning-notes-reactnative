@@ -18,15 +18,12 @@ export default function SearchBar({
   style?: TextStyle;
   other?: any;
 }) {
+  const styles = useStyles();
   return (
     <TextInput
-      style={{ ...styles.input, ...style }}
+      style={{ ...styles.searchInput, ...style }}
       {...other}
-      placeholder={children}
+      placeholder="Rechercher un tag ou un auteur"
     />
   );
 }
-
-const styles = StyleSheet.create({
-  input: {},
-});
