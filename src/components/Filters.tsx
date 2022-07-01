@@ -19,10 +19,10 @@ export default function Filters({
 }: {
   displayedAuthors: string[];
   displayedTags: string[];
-  setFilterTag: React.Dispatch<React.SetStateAction<string>>;
+  setFilterTag: React.Dispatch<React.SetStateAction<string[]>>;
   setFilterAuthor: React.Dispatch<React.SetStateAction<string>>;
   setSearchval: React.Dispatch<React.SetStateAction<string>>;
-  filterTag: string;
+  filterTag: string[];
   filterAuthor: string;
   applyFilters: () => void;
 }) {
@@ -34,9 +34,17 @@ export default function Filters({
   };
 
   const selectTag = (value: string) => {
-    if (value == filterTag) return setFilterTag("");
-    return setFilterTag(value);
-  };
+    if (filterTag.includes(value)) return setFilterTag((old) => { 
+        let temp = [...old];
+        let _index = temp.indexOf(value);
+        if (_index) {
+            temp.splice(_index, 1);
+            return temp;
+        }
+        return [...old]
+    });
+     setFilterTag((old) => { return [...old,value];})
+    };
 
   const [isOpenFilterBox, setIsOpenFilterBox] = useState(false);
 
@@ -61,8 +69,8 @@ export default function Filters({
           <View style={styles.filtersContent}>
             <Text style={styles.titleMd}>Tags</Text>
             <View style={styles.containerItems}>
-              {displayedTags.map((tag, index) => {
-                if (tag != filterTag) {
+              {displayedTags.map((tag) => {
+                if (!filterTag.includes(tag)) {
                   return (
                     <TouchableOpacity
                       style={styles.choice}
