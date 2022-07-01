@@ -23,7 +23,7 @@ export default function Home({ navigation }: { navigation: any }) {
   const [displayedTags, setDisplayedTags] = useState([] as string[]);
   const [searchval, setSearchval] = useState("");
   // Filters states
-  const [filterTag, setFilterTag] = useState('');
+  const [filterTag, setFilterTag] = useState([] as string[]);
   const [filterAuthor, setFilterAuthor] = useState('');
   const [displayedNotes, setDisplayedNotes] = useState(AllNotes);
 
@@ -62,12 +62,12 @@ export default function Home({ navigation }: { navigation: any }) {
   }, [AllNotes]);
 
   const applyFilters = () => {
-    console.log(filterAuthor)
-    if (filterTag == '' && filterAuthor == '') return setDisplayedNotes(AllNotes);
+    console.log(filterTag)
+    if (filterTag.length == 0 && filterAuthor == '') return setDisplayedNotes(AllNotes);
 
-    if (filterTag != '' && filterAuthor != '') return setDisplayedNotes(AllNotes.filter(note => note.author == filterAuthor && note.tags.includes(filterTag)));
+    if (filterTag.length > 0 && filterAuthor != '') return setDisplayedNotes(AllNotes.filter(note => note.author == filterAuthor && note.tags.some(r=> filterTag.includes(r))));
 
-    if (filterTag != '' ) return setDisplayedNotes(AllNotes.filter(note => note.tags.includes(filterTag)));
+    if (filterTag.length > 0) return setDisplayedNotes(AllNotes.filter(note => note.tags.some(r=> filterTag.includes(r))));
 
     if (filterAuthor != '') return setDisplayedNotes(AllNotes.filter(note => note.author == filterAuthor));
   }
