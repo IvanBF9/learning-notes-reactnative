@@ -25,11 +25,16 @@ export default function Home({ navigation }: { navigation: any }) {
   // Filters states
   const [filterTag, setFilterTag] = useState('');
   const [filterAuthor, setFilterAuthor] = useState('');
+  const [displayedNotes, setDisplayedNotes] = useState(AllNotes);
 
   useEffect(() => {
     setDisplayedTags(tags.filter((tag:string) => tag.toUpperCase().includes(searchval.toUpperCase())));
     setDisplayedAuthors(authors.filter((aut:string) => aut.toUpperCase().includes(searchval.toUpperCase())));
-  }, [searchval])
+  }, [searchval]);
+
+  useEffect(() => {
+    setDisplayedNotes(AllNotes)
+  },[AllNotes])
 /*
   useEffect(() => {
     getNotes().then((res: any) => setAllNotes(res));
@@ -50,20 +55,25 @@ export default function Home({ navigation }: { navigation: any }) {
       }
     });
 
-    const applyFilters = () => {
-      if (filterTag == '' && filterAuthor == '') return;
-
-      if (filterTag != '' && filterAuthor != '') return;
-
-    }
-
     setAuthors(_auteurs);
     setTags(_tags);
   }, [AllNotes]);
 
+  const applyFilters = () => {
+    console.log(filterAuthor)
+    if (filterTag == '' && filterAuthor == '') return setDisplayedNotes(AllNotes);
+
+    if (filterTag != '' && filterAuthor != '') return setDisplayedNotes(AllNotes.filter(note => note.author == filterAuthor && note.tags.includes(filterTag)));
+
+    if (filterTag != '' ) return setDisplayedNotes(AllNotes.filter(note => note.tags.includes(filterTag)));
+
+    if (filterAuthor != '') return setDisplayedNotes(AllNotes.filter(note => note.author == filterAuthor));
+  }
+
+
   return (
     <View>
-      <Filters displayedAuthors={displayedAuthors} displayedTags={displayedTags} setFilterTag={setFilterTag} setFilterAuthor={setFilterAuthor} setSearchval={setSearchval} filterTag={filterTag} filterAuthor={filterAuthor}/>
+      <Filters displayedAuthors={displayedAuthors} displayedTags={displayedTags} setFilterTag={setFilterTag} setFilterAuthor={setFilterAuthor} setSearchval={setSearchval} filterTag={filterTag} filterAuthor={filterAuthor} applyFilters={applyFilters}/>
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.py20}>
           <Text style={styles.titre}>
@@ -71,7 +81,7 @@ export default function Home({ navigation }: { navigation: any }) {
           </Text>
         </View>
 
-        {AllNotes.map((item, index) => {
+        {displayedNotes.map((item, index) => {
           return (
             <Card
               style={{ overflow: "hidden", maxHeight: 40 }}

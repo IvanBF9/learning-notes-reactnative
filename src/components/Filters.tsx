@@ -67,7 +67,7 @@ export default function Filters({displayedAuthors, displayedTags, setFilterTag, 
                     }
                 </View>
             </View>
-            <TouchableOpacity style={{padding:8}} onPress={() => {applyFilters}}><Text>Appliquer les filtres</Text></TouchableOpacity>
+            <TouchableOpacity style={{padding:8}} onPress={() => {applyFilters()}}><Text>Appliquer les filtres</Text></TouchableOpacity>
         </View>
     );
 }
